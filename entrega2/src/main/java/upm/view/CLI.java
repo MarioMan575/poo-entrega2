@@ -15,6 +15,7 @@ public class CLI {
         for (String command : commands) {
             System.out.println(command);
         }
+        System.out.print("> ");
         return scanner.nextLine();
     }
 

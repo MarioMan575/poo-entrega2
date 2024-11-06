@@ -6,7 +6,6 @@ import java.util.List;
 public class Team {
     private String name;
     private List<Player> players;
-    private static final int MIN_PLAYERS = 2;
 
     public Team(String name) {
         this.name = name;

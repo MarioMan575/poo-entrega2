@@ -20,6 +20,7 @@ public class App {
         userController = new UserController();
         tournamentController = new TournamentController();
 
+
         commandList = new LinkedList<>();
         commandList.add(new PlayerCreateCommand(userController));
         // Add other commands
@@ -43,7 +44,7 @@ public class App {
             if (command.equals("exit")) {
                 exit = true;
             } else {
-                String[] commandName = command.split(" ",2);
+                String[] commandName = command.split(" ", 2);
                 String commandParams = commandName[1].replace("[", "").replace("]", "");
                 String[] args = commandParams.split(";");
                 StringBuilder output = new StringBuilder();
