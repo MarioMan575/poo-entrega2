@@ -46,7 +46,6 @@ public class App {
                 String[] commandName = command.split(" ",2);
                 String commandParams = commandName[1].replace("[", "").replace("]", "");
                 String[] args = commandParams.split(";");
-
                 StringBuilder output = new StringBuilder();
                 for (Command cmd : commandList) {
                     String result = cmd.apply(args);
@@ -54,6 +53,7 @@ public class App {
                         output.append(result).append("\n");
                     }
                 }
+
                 cli.printSalida(output.toString());
             }
         }
