@@ -24,8 +24,9 @@ public class UserController {
         Player player = players.get(username);
         if (player != null && player.getPassword().equals(password)) {
             return player;
+        }else{
+            return null;
         }
-        return null;
     }
 }
 
