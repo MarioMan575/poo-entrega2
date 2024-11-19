@@ -1,4 +1,5 @@
 package upm.controller.command;
 
-public class StatisticsShowCommand {
+public class StatisticsShowCommand extends Command{
+
 }

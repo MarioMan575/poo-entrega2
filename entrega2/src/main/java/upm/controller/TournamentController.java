@@ -1,10 +1,10 @@
 package upm.controller;
 
-import upm.model.Tournament;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+import upm.model.Tournament;
 
 public class TournamentController {
     private List<Tournament> tournaments;
@@ -13,9 +13,24 @@ public class TournamentController {
         this.tournaments = new ArrayList<>();
     }
 
-    public void createTournament(String name, Date startDate, Date endDate) {
-        Tournament tournament = new Tournament(name, startDate, endDate);
-        tournaments.add(tournament);
+    public boolean createTournament(String name, Date startDate, Date endDate) {
+        for (Tournament tournament : tournaments) {
+            if (tournament.getName().equals(name)) {
+                return false;
+            }
+        }
+        tournaments.add(new Tournament(name, startDate, endDate));
+        return true;
+    }
+
+    public boolean deleteTournament(String name) {
+        for (Tournament tournament : tournaments) {
+            if (tournament.getName().equals(name)) {
+                tournaments.remove(tournament);
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Tournament> getTournaments() {
