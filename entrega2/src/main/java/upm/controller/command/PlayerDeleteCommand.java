@@ -12,23 +12,23 @@ public class PlayerDeleteCommand extends Command {
     @Override
     public String apply(String[] params) {
         if (params == null || params.length != 2) {
-            return "Invalid parameters. Usage: delete [playerId]";
+            return "Invalid parameters. Usage: delete [dni]";
         }
 
         String command = params[0];
-        String playerId = params[1];
+        String dni = params[1];
 
         String validationResult = super.testparams(command, "delete", params.length - 1, 1);
         if (validationResult != null && !validationResult.isEmpty()) {
             return validationResult;
         }
 
-        boolean deleteSuccess = controller.deletePlayer(playerId);
+        boolean deleteSuccess = controller.deletePlayer(dni);
         return String.valueOf(deleteSuccess);
     }
 
     @Override
     public String toStringCommand() {
-        return "delete [playerId]";
+        return "delete [dni]";
     }
 }
