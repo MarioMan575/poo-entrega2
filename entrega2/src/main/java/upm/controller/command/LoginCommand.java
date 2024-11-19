@@ -12,8 +12,7 @@ public class LoginCommand extends Command {
     @Override
     public String apply(String[] params) {
 
-        String result = super.testparams(params[0], "login",
-                params.length - 1, 2);
+        String result = super.testparams(params[0], "login", params.length - 1, 2);
         if (result != null && result.equals("")) {
             result = String.valueOf(controller.login(params[1], params[2]));
         }
