@@ -1,9 +1,9 @@
 package upm.controller;
 
-import upm.model.Player;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import upm.model.Player;
 
 public class UserController {
     private Map<String, Player> players;
@@ -26,6 +26,13 @@ public class UserController {
             return player;
         }
         return null;
+    }
+    public boolean logOut(String username) {
+        Player player = players.get(username);
+        if (player != null) {
+            return true;
+        }
+        return false;
     }
 }
 

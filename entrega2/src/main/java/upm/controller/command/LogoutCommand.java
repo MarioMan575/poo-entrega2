@@ -19,7 +19,7 @@ public class LogoutCommand extends Command {
         if (validationResult != null && !validationResult.isEmpty()) {
             return validationResult;
         }
-        boolean logoutSuccess = controller.logout();
+        boolean logoutSuccess = controller.logOut(params[1]);
         return String.valueOf(logoutSuccess);
     }
 
