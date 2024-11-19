@@ -1,5 +1,7 @@
 package upm.controller.command;
 
+import java.util.Date;
+
 import upm.controller.TournamentController;
 
 public class TournamentCreateCommand extends Command{
@@ -14,7 +16,11 @@ public class TournamentCreateCommand extends Command{
         if (params.length != 3) {
             return "Invalid number of arguments.";
         }
-        boolean success = controller.createTournament(params[0], params[1], params[2]); //Queda arreglar aquí para que se pase un Date en vez de un String
+        Date startDate = new Date();
+        Date endDate = new Date();
+        startDate.setTime(Long.parseLong(params[1]));
+        endDate.setTime(Long.parseLong(params[2]));
+        boolean success = controller.createTournament(params[0], startDate, endDate);
         if (success) {
             return "Tournament created successfully.";
         } else {

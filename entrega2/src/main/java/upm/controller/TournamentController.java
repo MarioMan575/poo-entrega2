@@ -13,9 +13,14 @@ public class TournamentController {
         this.tournaments = new ArrayList<>();
     }
 
-    public void createTournament(String name, Date startDate, Date endDate) {
-        Tournament tournament = new Tournament(name, startDate, endDate);
-        tournaments.add(tournament);
+    public boolean createTournament(String name, Date startDate, Date endDate) {
+        for (Tournament tournament : tournaments) {
+            if (tournament.getName().equals(name)) {
+                return false;
+            }
+        }
+        tournaments.add(new Tournament(name, startDate, endDate));
+        return true;
     }
 
     public boolean deleteTournament(String name) {
