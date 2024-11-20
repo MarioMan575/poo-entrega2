@@ -2,12 +2,11 @@ package upm.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import upm.model.Tournament;
 
 public class TournamentController {
-    private List<Tournament> tournaments;
+    private ArrayList<Tournament> tournaments;
 
     public TournamentController() {
         this.tournaments = new ArrayList<>();
@@ -33,7 +32,7 @@ public class TournamentController {
         return false;
     }
 
-    public List<Tournament> getTournaments() {
+    public ArrayList<Tournament> getTournaments() {
         return tournaments;
     }
 }

@@ -10,6 +10,7 @@ public class Tournament {
     private Date endDate;
     private List<Player> players;
     private List<Team> teams;
+    private boolean inProgress;
 
     public Tournament(String name, Date startDate, Date endDate) {
         this.name = name;
@@ -43,6 +44,8 @@ public class Tournament {
         return teams;
     }
 
-    // Implement matchmaking logic...
+    public boolean isInProgress() {
+        return inProgress;
+    }
 }
 

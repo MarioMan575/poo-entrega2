@@ -17,15 +17,15 @@ public abstract class Command {
         return result;
     }
 
-    public String testparamsMin(String commandin, String commandproposed, int paramsNumberin, int paramsNumberpropose) {
+    public String testparamsMin(String commandIn, String commandProposed, int paramsNumberIn, int paramsNumberProposed) {
         String result = null;
 
-        if (commandin.toLowerCase().equals(commandproposed))
-            if (paramsNumberin >= paramsNumberpropose) {
+        if (commandIn.toLowerCase().equals(commandProposed))
+            if (paramsNumberIn >= paramsNumberProposed) {
                 result = "";
             } else
-                result = "Number of params incorrect: expected " + paramsNumberin
-                        + " found " + paramsNumberpropose;
+                result = "Number of params incorrect: expected " + paramsNumberIn
+                        + " found " + paramsNumberProposed;
 
         return result;
 

@@ -1,34 +1,30 @@
 package upm.controller.command;
 
-import upm.controller.PlayerController;
+import upm.controller.UserController;
 
 public class PlayerDeleteCommand extends Command {
-    private final PlayerController controller;
+    private final UserController controller;
 
-    public PlayerDeleteCommand(PlayerController controller) {
+    public PlayerDeleteCommand(UserController controller) {
         this.controller = controller;
     }
 
     @Override
     public String apply(String[] params) {
-        if (params == null || params.length != 2) {
-            return "Invalid parameters. Usage: delete [dni]";
-        }
+        String result=super.testparams(params[0],"delete_task",
+                params.length-1,1);
 
-        String command = params[0];
-        String dni = params[1];
+        if (result!=null&&result.isEmpty())
+            if (controller.getLoggedUser()!=null)
+                result = controller.deletePlayer(params[1]);
+            else
+                result = "Command not apply until you are logued";
 
-        String validationResult = super.testparams(command, "delete", params.length - 1, 1);
-        if (validationResult != null && !validationResult.isEmpty()) {
-            return validationResult;
-        }
-
-        boolean deleteSuccess = controller.deletePlayer(dni);
-        return String.valueOf(deleteSuccess);
+        return result;
     }
 
     @Override
     public String toStringCommand() {
-        return "delete [dni]";
+        return "delete [email]";
     }
 }

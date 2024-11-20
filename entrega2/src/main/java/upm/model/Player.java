@@ -1,39 +1,58 @@
 package upm.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Player extends User {
     private String firstName;
     private String lastName;
     private String dni;
-    private Map<String, Double> statistics;
+    private Admin admin;
 
-    public Player(String username, String password, String firstName, String lastName, String dni) {
-        super(username, password);
+    public Player(String email, String password, String firstName, String lastName, String dni, Admin admin) {
+        super(email, password);
         this.firstName = firstName;
         this.lastName = lastName;
         this.dni = dni;
-        this.statistics = new HashMap<>();
-        // Initializing default statistics
-        statistics.put("puntos marcados", 0.0);
-        statistics.put("partidos ganados", 0.0);
-        statistics.put("puntos de asistencia", 0.0);
-        statistics.put("torneos ganados", 0.0);
-        statistics.put("dinero generado", 0.0);
+        this.admin = admin;
     }
 
-    // Getters and setters
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getDni() {
         return dni;
     }
 
-    public Map<String, Double> getStatistics() {
-        return statistics;
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+    public User getAdmin() {
+        return admin;
     }
 
-    public void updateStatistic(String category, double value) {
-        statistics.put(category, value);
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "email='" + getEmail() + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dni='" + dni + '\'' +
+                ", admin=" + admin.getEmail() +  // Mostrar el email del admin
+                '}';
     }
 }
-

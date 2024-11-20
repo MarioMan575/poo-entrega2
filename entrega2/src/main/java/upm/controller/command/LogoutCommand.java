@@ -11,16 +11,13 @@ public class LogoutCommand extends Command {
 
     @Override
     public String apply(String[] params) {
-        if (params == null || params.length != 1) {
-            return "Invalid parameters. Usage: logout";
-        }
-        String command = params[0];
-        String validationResult = super.testparams(command, "logout", params.length - 1, 0);
-        if (validationResult != null && !validationResult.isEmpty()) {
-            return validationResult;
-        }
-        boolean logoutSuccess = controller.logOut(params[1]);
-        return String.valueOf(logoutSuccess);
+        String result=super.testparams(params[0],"logout",
+                params.length-1,1);
+
+        if (result!=null&&result.isEmpty())
+            result = controller.logout();
+
+        return result;
     }
 
     @Override

@@ -3,28 +3,27 @@ package upm.controller.command;
 import upm.controller.UserController;
 
 public class PlayerCreateCommand extends Command {
-    private UserController userController;
+    private UserController controller;
 
-    public PlayerCreateCommand(UserController userController) {
-        this.userController = userController;
+    public PlayerCreateCommand(UserController controller) {
+        this.controller = controller;
     }
 
     @Override
     public String apply(String[] params) {
-        if (params.length != 5) {
-            return "Invalid number of arguments.";
+        String result=super.testparams(params[0],"register",
+                params.length-1,5);
+
+        if (result!=null&&result.isEmpty()) {
+            result = controller.registerPlayer(params[1], params[2], params[3], params[4], params[5]);
         }
-        boolean success = userController.registerPlayer(params[0], params[1], params[2], params[3], params[4]);
-        if (success) {
-            return "Player created successfully.";
-        } else {
-            return "Player already exists.";
-        }
+
+        return result;
     }
 
     @Override
     public String toStringCommand() {
-        return "player-create [username; password; firstName; lastName; dni]";
+        return "player-create [email; password; firstName; lastName; dni]";
     }
 }
 

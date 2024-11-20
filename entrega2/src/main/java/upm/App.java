@@ -17,7 +17,7 @@ public class App {
 
     public App() {
         cli = new CLI();
-        userController = new UserController();
+        userController = new UserController(tournamentController.getTournaments());
         tournamentController = new TournamentController();
 
 
