@@ -11,20 +11,18 @@ public class PlayerDeleteCommand extends Command {
 
     @Override
     public String apply(String[] params) {
-        String result=super.testparams(params[0],"delete_task",
+        String result=super.testparams(params[0],"player-delete",
                 params.length-1,1);
 
-        if (result!=null&&result.isEmpty())
-            if (controller.getLoggedUser()!=null)
-                result = controller.deletePlayer(params[1]);
-            else
-                result = "Command not apply until you are logued";
+        if (result != null && result.isEmpty()) {
+            result = controller.deletePlayer(params[1]);
+        }
 
         return result;
     }
 
     @Override
     public String toStringCommand() {
-        return "delete [email]";
+        return "player-delete [email]";
     }
 }

@@ -11,10 +11,10 @@ public class LogoutCommand extends Command {
 
     @Override
     public String apply(String[] params) {
-        String result=super.testparams(params[0],"logout",
-                params.length-1,1);
 
-        if (result!=null&&result.isEmpty())
+        String result = super.testparams(params[0], "logout", params.length - 1, 0);
+
+        if (result != null && result.isEmpty())
             result = controller.logout();
 
         return result;

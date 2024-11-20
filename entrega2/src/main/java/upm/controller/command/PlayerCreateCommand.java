@@ -11,7 +11,7 @@ public class PlayerCreateCommand extends Command {
 
     @Override
     public String apply(String[] params) {
-        String result=super.testparams(params[0],"register",
+        String result=super.testparams(params[0],"player-create",
                 params.length-1,5);
 
         if (result!=null&&result.isEmpty()) {

@@ -1,7 +1,8 @@
 package upm.controller;
 
 import upm.model.Team;
-import upm.model.Player;
+import upm.model.User;
+
 import java.util.HashMap;
 
 public class TeamController {

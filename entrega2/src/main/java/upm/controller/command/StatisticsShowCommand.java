@@ -1,14 +1,28 @@
 package upm.controller.command;
 
-public class StatisticsShowCommand extends Command{
+import upm.controller.UserController;
+
+public class StatisticsShowCommand extends Command {
+    private UserController controller;
+
+    public StatisticsShowCommand(UserController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public String apply(String[] params) {
-        return "";
+
+        String result = super.testparams(params[0], "statistics-show", params.length - 1, 1);
+
+        if (result != null && result.isEmpty()) {
+            result = controller.statisticsShow(params[1]);
+        }
+
+        return result;
     }
 
     @Override
     public String toStringCommand() {
-        return "";
+        return "statistics-show [-csv or -json]";
     }
 }

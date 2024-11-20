@@ -3,7 +3,6 @@ package upm.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import upm.model.Admin;
 import upm.model.Player;
@@ -12,7 +11,7 @@ import upm.model.Team;
 import upm.model.Tournament;
 
 public class UserController {
-    private Map<String, User> users;
+    private HashMap<String, User> users;
     private User loggedUser;
     private ArrayList<Tournament> tournaments;
 
@@ -20,6 +19,7 @@ public class UserController {
         this.users = new HashMap<>();
         this.loggedUser = null;
         this.tournaments = tournaments;
+        users.put("alvaro@upm.es",new Admin("alvaro@upm.es","1234"));
     }
 
     public String registerPlayer(String email, String password, String firstName, String lastName, String dni) {
@@ -49,22 +49,29 @@ public class UserController {
     }
 
     public String login(String email, String password) {
-        User user = users.get(email);
-        if (user != null && user.getPassword().equals(password)) {
-            loggedUser = user;
-            return "Inicio de sesión exitoso como " + loggedUser.getEmail() + ".";
+        if (loggedUser != null) {
+            return "Error: There is already an active session. Please log out first.";
         }
-        return "Error: Usuario o contraseña incorrectos.";
-    }
 
+        User user = users.get(email);
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
+                loggedUser = user; // Iniciar sesión
+                return "Login successful as " + loggedUser.getEmail() + ".";
+            } else {
+                return "Error: Incorrect password.";
+            }
+        }
+        return "Error: Incorrect username or password.";
+    }
 
     public String logout() {
         if (loggedUser != null) {
             String email = loggedUser.getEmail();
             loggedUser = null;
-            return "Sesión cerrada correctamente para " + email + ".";
+            return "Logout successful for " + email + ".";
         } else {
-            return "No hay ningún usuario logueado.";
+            return "No user is currently logged in.";
         }
     }
 
@@ -80,16 +87,17 @@ public class UserController {
         return loggedUser instanceof Admin;
     }
 
-    public Map<String, Player> listPlayers() {
-        return users.values().stream()
-                .filter(user -> user instanceof Player)
-                .map(user -> (Player) user)
-                .collect(Collectors.toMap(Player::getEmail, player -> player));
-    }
-
     public String deletePlayer(String playerEmail) {
+        if (loggedUser == null) {
+            return "Error: You must be logged in to delete a player.";
+        }
+
+        if (!isAdmin()) {
+            return "Error: Only admins can delete players.";
+        }
+
         User user = users.get(playerEmail);
-        if (user == null || !(user instanceof Player)) {
+        if (user == null || !isPlayer()) {
             return "Error: Player not found.";
         }
 
@@ -106,6 +114,7 @@ public class UserController {
         users.remove(playerEmail);
         return "Success: Player deleted successfully.";
     }
+
 
     private boolean isPlayerInTournament(Player player) {
         for (Tournament tournament : tournaments) {
@@ -132,5 +141,53 @@ public class UserController {
         }
         return false;
     }
+
+    public String statisticsShow(String format) {
+        // Verificar si el usuario está logueado y si es un jugador
+        if (loggedUser == null || !isPlayer()) {
+            return "Error: You must be logged in as a player to view statistics.";
+        }
+
+        Player player = (Player) loggedUser;
+
+        // Recoger las estadísticas del jugador
+        Map<String, Double> statistics = player.getStatistics();
+
+        // Si el formato es CSV
+        if (format.equals("-csv")) {
+            StringBuilder csv = new StringBuilder();
+            csv.append("Category,Value\n");
+            for (Map.Entry<String, Double> entry : statistics.entrySet()) {
+                csv.append(entry.getKey()).append(",").append(entry.getValue()).append("\n");
+            }
+            return csv.toString();
+        }
+
+        // Si el formato es JSON
+        else if (format.equals("-json")) {
+            StringBuilder json = new StringBuilder();
+            json.append("{\n");
+
+            // Iterar sobre las estadísticas para formar el JSON manualmente
+            for (Map.Entry<String, Double> entry : statistics.entrySet()) {
+                json.append("  \"").append(entry.getKey()).append("\": ").append(entry.getValue());
+                json.append(",\n");
+            }
+
+            // Eliminar la última coma y salto de línea
+            if (json.length() > 2) {
+                json.setLength(json.length() - 2);  // Eliminar la última coma
+                json.append("\n");
+            }
+
+            json.append("}");
+
+            return json.toString();
+        }
+
+        // Si el formato no es válido
+        return "Error: Invalid format. Please use '-csv' or '-json'.";
+    }
+
 }
 

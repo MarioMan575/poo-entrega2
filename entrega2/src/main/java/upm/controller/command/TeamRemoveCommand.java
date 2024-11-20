@@ -11,19 +11,17 @@ public class TeamRemoveCommand extends Command{
 
     @Override
     public String apply(String[] params) {
-        if (params.length != 1) {
-            return "Invalid number of arguments.";
+        String result = super.testparams(params[0], "team-remove", params.length - 1, 1);
+
+        if (result != null && result.isEmpty()) {
+            result = controller.removeTeam(params[1]);
         }
-        boolean success = controller.deleteTeam(params[0]);
-        if (success) {
-            return "Team deleted successfully.";
-        } else {
-            return "Team does not exist.";
-        }
+
+        return result;
     }
 
     @Override
     public String toStringCommand() {
-        return "team-remove [teamName]";
+        return "team-remove [playerName]";
     }
 }

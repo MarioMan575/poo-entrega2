@@ -15,7 +15,7 @@ public class LoginCommand extends Command {
         String result = super.testparams(params[0], "login", params.length - 1, 2);
 
         if (result != null && result.isEmpty()) {
-            result = String.valueOf(controller.login(params[1], params[2]));
+            result = controller.login(params[1], params[2]);
         }
 
         return result;

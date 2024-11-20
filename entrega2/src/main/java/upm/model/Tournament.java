@@ -10,7 +10,6 @@ public class Tournament {
     private Date endDate;
     private List<Player> players;
     private List<Team> teams;
-    private boolean inProgress;
 
     public Tournament(String name, Date startDate, Date endDate) {
         this.name = name;
@@ -45,7 +44,8 @@ public class Tournament {
     }
 
     public boolean isInProgress() {
-        return inProgress;
+        Date currentDate = new Date();
+        return (currentDate.after(startDate) && currentDate.before(endDate));
     }
 }
 
