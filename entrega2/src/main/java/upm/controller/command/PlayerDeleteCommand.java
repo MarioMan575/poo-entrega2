@@ -15,6 +15,14 @@ public class PlayerDeleteCommand extends Command {
                 params.length-1,1);
 
         if (result != null && result.isEmpty()) {
+            if (controller.getLoggedUser() == null) {
+                return "Error: You must be logged in to delete a player.";
+            }
+
+            if (!controller.isAdmin()) {
+                return "Error: Only admins can delete players.";
+            }
+            
             result = controller.deletePlayer(params[1]);
         }
 

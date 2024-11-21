@@ -15,7 +15,15 @@ public class PlayerCreateCommand extends Command {
                 params.length-1,5);
 
         if (result!=null&&result.isEmpty()) {
-            result = controller.registerPlayer(params[1], params[2], params[3], params[4], params[5]);
+            if (controller.getLoggedUser() == null) {
+                return "Error: You must be logged in to create a player.";
+            }
+
+            if (!controller.isAdmin()) {
+                return "Error: Only admins can create players.";
+            }
+
+            return controller.createPlayer(params[1], params[2], params[3], params[4], params[5]);
         }
 
         return result;

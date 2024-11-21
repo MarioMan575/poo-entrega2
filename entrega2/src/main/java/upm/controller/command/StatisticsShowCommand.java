@@ -15,6 +15,10 @@ public class StatisticsShowCommand extends Command {
         String result = super.testparams(params[0], "statistics-show", params.length - 1, 1);
 
         if (result != null && result.isEmpty()) {
+            if (controller.getLoggedUser() == null || !controller.isPlayer()) {
+                return "Error: You must be logged in as a player to view statistics.";
+            }
+            
             result = controller.statisticsShow(params[1]);
         }
 

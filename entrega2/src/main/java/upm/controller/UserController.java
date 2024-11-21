@@ -22,13 +22,9 @@ public class UserController {
         users.put("alvaro@upm.es",new Admin("alvaro@upm.es","1234"));
     }
 
-    public String registerPlayer(String email, String password, String firstName, String lastName, String dni) {
+    public String createPlayer(String email, String password, String firstName, String lastName, String dni) {
         if (users.containsKey(email)) {
             return "Error: Player with this email already exists.";
-        }
-
-        if (!isAdmin()) {
-            return "Error: Only admins can register players.";
         }
 
         users.put(email, new Player(email, password, firstName, lastName, dni, (Admin) loggedUser));
@@ -88,14 +84,6 @@ public class UserController {
     }
 
     public String deletePlayer(String playerEmail) {
-        if (loggedUser == null) {
-            return "Error: You must be logged in to delete a player.";
-        }
-
-        if (!isAdmin()) {
-            return "Error: Only admins can delete players.";
-        }
-
         User user = users.get(playerEmail);
         if (user == null || !isPlayer()) {
             return "Error: Player not found.";
@@ -143,11 +131,6 @@ public class UserController {
     }
 
     public String statisticsShow(String format) {
-        // Verificar si el usuario está logueado y si es un jugador
-        if (loggedUser == null || !isPlayer()) {
-            return "Error: You must be logged in as a player to view statistics.";
-        }
-
         Player player = (Player) loggedUser;
 
         // Recoger las estadísticas del jugador
