@@ -1,4 +1,4 @@
-package upm.controller.command;
+/*package upm.controller.command;
 
 import upm.controller.TeamController;
 
@@ -25,3 +25,4 @@ public class TeamAddCommand extends Command {
         return "team-add [teamName;playerEmail]";
     }
 }
+*/
