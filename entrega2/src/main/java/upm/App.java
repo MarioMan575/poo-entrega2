@@ -32,10 +32,20 @@ public class App {
 
         commandList = new LinkedList<>();
         commandList.add(new PlayerCreateCommand(userController));
+        commandList.add(new TeamCreateCommand(teamController,userController));
+        commandList.add(new PlayerDeleteCommand(userController));
+        commandList.add(new TeamDeleteCommand(teamController,userController));
+        commandList.add(new TeamAddCommand(teamController,userController));
+        commandList.add(new TeamRemoveCommand(teamController,userController));
+        commandList.add(new TournamentCreateCommand(tournamentController,userController));
+        commandList.add(new TournamentDeleteCommand(tournamentController,userController));
+        commandList.add(new TournamentMatchmakingCommand(tournamentController,userController));
+        commandList.add(new TournamentAddCommand(tournamentController,userController));
+        commandList.add(new TournamentRemoveCommand(tournamentController,userController));
+        commandList.add(new StatisticsShowCommand(userController));
         commandList.add(new LoginCommand(userController));
         commandList.add(new LogoutCommand(userController));
-        commandList.add(new PlayerDeleteCommand(userController));
-        commandList.add(new StatisticsShowCommand(userController));
+        commandList.add(new TournamentListCommand(tournamentController,userController));
     }
 
     public static void main(String[] args) {

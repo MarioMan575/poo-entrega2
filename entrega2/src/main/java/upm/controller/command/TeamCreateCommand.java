@@ -2,7 +2,6 @@ package upm.controller.command;
 
 import upm.controller.TeamController;
 import upm.controller.UserController;
-import upm.model.Admin;
 
 public class TeamCreateCommand extends Command {
     private TeamController teamController;

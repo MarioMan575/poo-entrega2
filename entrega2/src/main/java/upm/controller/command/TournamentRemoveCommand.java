@@ -33,6 +33,6 @@ public class TournamentRemoveCommand extends Command {
 
     @Override
     public String toStringCommand() {
-        return "tournament-remove [tournamentName; solo or team]";
+        return "tournament-remove [tournamentName;solo or team]";
     }
 }

@@ -33,6 +33,6 @@ public class TournamentAddCommand extends Command {
 
     @Override
     public String toStringCommand() {
-        return "tournament-add [tournamentName; solo or team]";
+        return "tournament-add [tournamentName;solo or team]";
     }
 }

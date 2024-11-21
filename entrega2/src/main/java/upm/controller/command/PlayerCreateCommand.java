@@ -31,7 +31,7 @@ public class PlayerCreateCommand extends Command {
 
     @Override
     public String toStringCommand() {
-        return "player-create [email; password; firstName; lastName; dni]";
+        return "player-create [email;password;firstName;lastName;dni]";
     }
 }
 

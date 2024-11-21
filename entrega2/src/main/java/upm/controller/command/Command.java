@@ -10,7 +10,7 @@ public abstract class Command {
                 result = "";
             } else {
                 result = "Number of params incorrect : expected " + paramsNumberIn
-                        + "found" + paramsNumberProposed;
+                        + " found " + paramsNumberProposed;
             }
         }
 
