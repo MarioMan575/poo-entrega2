@@ -4,21 +4,30 @@ import upm.controller.TeamController;
 import upm.controller.UserController;
 import upm.controller.TournamentController;
 import upm.controller.command.*;
+import upm.model.Team;
+import upm.model.Tournament;
+import upm.model.User;
 import upm.view.CLI;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class App {
     private UserController userController;
+    private TeamController teamController;
     private TournamentController tournamentController;
     private List<Command> commandList;
     private CLI cli;
 
     public App() {
         cli = new CLI();
-        tournamentController = new TournamentController();
-        userController = new UserController(tournamentController.getTournaments());
+        HashMap<String, User> users = new HashMap<>();
+        HashMap<String, Team> teams = new HashMap<>();
+        HashMap<String, Tournament> tournaments = new HashMap<>();
+        userController = new UserController(users,teams,tournaments);
+        teamController = new TeamController(users,teams,tournaments);
+        tournamentController = new TournamentController(users,teams,tournaments);
 
 
         commandList = new LinkedList<>();
@@ -82,7 +91,7 @@ public class App {
                     } else {
                         cli.printSalida("Command not recognized or executed.");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     cli.printSalida("Error processing command: " + e.getMessage());
                 }
             }

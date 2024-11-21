@@ -1,12 +1,15 @@
-/*package upm.controller.command;
+package upm.controller.command;
 
 import upm.controller.TeamController;
+import upm.controller.UserController;
 
-public class TeamRemoveCommand extends Command{
-    private final TeamController controller;
+public class TeamRemoveCommand extends Command {
+    private TeamController teamController;
+    private UserController userController;
 
-    public TeamRemoveCommand(TeamController controller) {
-        this.controller = controller;
+    public TeamRemoveCommand(TeamController teamController, UserController userController) {
+        this.teamController = teamController;
+        this.userController = userController;
     }
 
     @Override
@@ -14,7 +17,15 @@ public class TeamRemoveCommand extends Command{
         String result = super.testparams(params[0], "team-remove", params.length - 1, 1);
 
         if (result != null && result.isEmpty()) {
-            result = controller.removeTeam(params[1]);
+            if (userController.getLoggedUser() == null) {
+                return "Error: You must be logged in to remove a player from a team.";
+            }
+
+            if (!userController.isAdmin()) {
+                return "Error: Only players can can remove players.";
+            }
+
+            result = teamController.removeTeam(params[1],params[2]);
         }
 
         return result;
@@ -22,7 +33,6 @@ public class TeamRemoveCommand extends Command{
 
     @Override
     public String toStringCommand() {
-        return "team-remove [playerName]";
+        return "team-remove [teamName;playerEmail]";
     }
 }
-*/

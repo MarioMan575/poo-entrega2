@@ -1,31 +1,74 @@
 package upm.controller;
 
-import upm.model.Team;
-import upm.model.User;
+import upm.model.*;
 
 import java.util.HashMap;
 
 public class TeamController {
-    private HashMap<String, Team> teams;
+    private HashMap<String,User> users;
+    private HashMap<String,Team> teams;
+    private HashMap<String, Tournament> tournaments;;
 
-    public TeamController() {
-        teams = new HashMap<>();
+    public TeamController(HashMap<String, User> users, HashMap<String,Team> teams, HashMap<String,Tournament> tournaments) {
+        this.users = users;
+        this.teams = teams;
+        this.tournaments = tournaments;
     }
 
-    public boolean createTeam(String nombre) {
-        if (teams.containsKey(nombre)){
-            return false;
+    public String createTeam(String name, User loggedUser) {
+        if (teams.containsKey(name)) {
+            return "Error: Team with this name already exists.";
         }
-        Team team = new Team(nombre);
-        teams.put(nombre, team);
-        return true;
+
+        teams.put(name, new Team(name, (Admin) loggedUser));
+        return "Success: Team '" + name + "' created successfully by " + loggedUser.getEmail() + ".";
     }
 
-    public Team getTeam(String nombre) {
-        return teams.get(nombre);
+    public String deleteTeam(String teamName) {
+        Team team = teams.get(teamName);
+
+        if (team == null) {
+            return "Error: Team not found.";
+        }
+
+        for (Tournament tournament : tournaments.values()) {
+            if (tournament.isInProgress() && tournament.getTeams().containsKey(teamName)) {
+                return "Error: Cannot delete team '" + teamName + "' because it is participating in an ongoing tournament.";
+            }
+        }
+
+        teams.remove(teamName);
+        return "Success: Team '" + teamName + "' deleted successfully.";
     }
 
-    public boolean deleteTeam(String nombre) {
-        return teams.remove(nombre) != null;
+    public String addTeam(String teamName, String playerEmail) {
+        Team team = teams.get(teamName);
+        Player player = (Player) users.get(playerEmail);
+
+        if (team == null) {
+            return "Error: Team not found.";
+        }
+
+        if (player == null) {
+            return "Error: Player not found.";
+        }
+
+        return team.addPlayer(player);
     }
+
+    public String removeTeam(String teamName, String playerEmail) {
+        Team team = teams.get(teamName);
+        Player player = (Player) users.get(playerEmail);
+
+        if (team == null) {
+            return "Error: Team not found.";
+        }
+
+        if (player == null) {
+            return "Error: Player not found.";
+        }
+
+        return team.removePlayer(player);
+    }
+
 }

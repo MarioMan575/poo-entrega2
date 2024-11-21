@@ -1,12 +1,15 @@
-/*package upm.controller.command;
+package upm.controller.command;
 
 import upm.controller.TeamController;
+import upm.controller.UserController;
 
 public class TeamAddCommand extends Command {
-    private TeamController controller;
+    private TeamController teamController;
+    private UserController userController;
 
-    public TeamAddCommand(TeamController controller) {
-        this.controller = controller;
+    public TeamAddCommand(TeamController teamController, UserController userController) {
+        this.teamController = teamController;
+        this.userController = userController;
     }
 
     @Override
@@ -14,7 +17,15 @@ public class TeamAddCommand extends Command {
         String result = super.testparams(params[0], "team-add", params.length - 1, 2);
 
         if (result != null && result.isEmpty()) {
-            result = controller.addTeam(params[1],params[2]);
+            if (userController.getLoggedUser() == null) {
+                return "Error: You must be logged in to add a player to a team.";
+            }
+
+            if (!userController.isAdmin()) {
+                return "Error: Only administrators can add players to a team.";
+            }
+
+            result = teamController.addTeam(params[1], params[2]);
         }
 
         return result;
@@ -25,4 +36,3 @@ public class TeamAddCommand extends Command {
         return "team-add [teamName;playerEmail]";
     }
 }
-*/

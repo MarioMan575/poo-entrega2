@@ -29,40 +29,20 @@ public class Player extends User {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public Admin getAdmin() {
+        return admin;
     }
 
     public Map<String, Double> getStatistics() {
         return statistics;
-    }
-
-    public void setStatistics(Map<String, Double> statistics) {
-        this.statistics = statistics;
-    }
-
-    public User getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
 
     public void updateStatistic(String category, double value) {

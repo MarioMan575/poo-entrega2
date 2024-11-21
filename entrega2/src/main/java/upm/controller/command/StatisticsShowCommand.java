@@ -18,7 +18,7 @@ public class StatisticsShowCommand extends Command {
             if (controller.getLoggedUser() == null || !controller.isPlayer()) {
                 return "Error: You must be logged in as a player to view statistics.";
             }
-            
+
             result = controller.statisticsShow(params[1]);
         }
 

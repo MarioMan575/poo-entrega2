@@ -14,8 +14,13 @@ public class LogoutCommand extends Command {
 
         String result = super.testparams(params[0], "logout", params.length - 1, 0);
 
-        if (result != null && result.isEmpty())
+        if (result != null && result.isEmpty()) {
+            if (controller.getLoggedUser() == null) {
+                return "Error: No user is currently logged in.";
+            }
+
             result = controller.logout();
+        }
 
         return result;
     }

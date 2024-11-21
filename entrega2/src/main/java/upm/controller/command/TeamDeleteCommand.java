@@ -1,12 +1,15 @@
-/*package upm.controller.command;
+package upm.controller.command;
 
 import upm.controller.TeamController;
+import upm.controller.UserController;
 
-public class TeamDeleteCommand extends Command{
-    private final TeamController controller;
+public class TeamDeleteCommand extends Command {
+    private TeamController teamController;
+    private UserController userController;
 
-    public TeamDeleteCommand(TeamController controller){
-        this.controller = controller;
+    public TeamDeleteCommand(TeamController teamController, UserController userController) {
+        this.teamController = teamController;
+        this.userController = userController;
     }
 
     @Override
@@ -14,7 +17,15 @@ public class TeamDeleteCommand extends Command{
         String result = super.testparams(params[0], "team-delete", params.length - 1, 1);
 
         if (result != null && result.isEmpty()) {
-            result = controller.deleteTeam(params[1]);
+            if (userController.getLoggedUser() == null) {
+                return "Error: You must be logged in to delete a team.";
+            }
+
+            if (!userController.isAdmin()) {
+                return "Error: Only administrators can delete teams.";
+            }
+
+            result = teamController.deleteTeam(params[1]);
         }
 
         return result;
@@ -25,4 +36,3 @@ public class TeamDeleteCommand extends Command{
         return "team-delete [teamName]";
     }
 }
-*/

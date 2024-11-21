@@ -11,15 +11,17 @@ import upm.model.Team;
 import upm.model.Tournament;
 
 public class UserController {
-    private HashMap<String, User> users;
-    private User loggedUser;
-    private ArrayList<Tournament> tournaments;
+    private HashMap<String,User> users;
+    private HashMap<String,Team> teams;
+    private HashMap<String,Tournament> tournaments;
+    private User loggedUser;;
 
-    public UserController(ArrayList<Tournament> tournaments) {
-        this.users = new HashMap<>();
-        this.loggedUser = null;
+    public UserController(HashMap<String, User> users, HashMap<String,Team> teams, HashMap<String,Tournament> tournaments) {
+        this.users = users;
+        this.teams = teams;
         this.tournaments = tournaments;
-        users.put("alvaro@upm.es",new Admin("alvaro@upm.es","1234"));
+        this.loggedUser = null;
+        users.put("alvaro@upm.es", new Admin("alvaro@upm.es", "1234"));
     }
 
     public String createPlayer(String email, String password, String firstName, String lastName, String dni) {
@@ -31,7 +33,7 @@ public class UserController {
         return "Success: Player registered successfully.";
     }
 
-    public String registerAdmin(String email, String password) {
+    public String createAdmin(String email, String password) {
         if (users.containsKey(email)) {
             return "Error: Admin with this email already exists.";
         }
@@ -52,7 +54,7 @@ public class UserController {
         User user = users.get(email);
         if (user != null) {
             if (user.getPassword().equals(password)) {
-                loggedUser = user; // Iniciar sesión
+                loggedUser = user;
                 return "Login successful as " + loggedUser.getEmail() + ".";
             } else {
                 return "Error: Incorrect password.";
@@ -62,13 +64,9 @@ public class UserController {
     }
 
     public String logout() {
-        if (loggedUser != null) {
-            String email = loggedUser.getEmail();
-            loggedUser = null;
-            return "Logout successful for " + email + ".";
-        } else {
-            return "No user is currently logged in.";
-        }
+        String email = loggedUser.getEmail();
+        loggedUser = null;
+        return "Logout successful for " + email + ".";
     }
 
     public User getLoggedUser() {
@@ -91,43 +89,19 @@ public class UserController {
 
         Player player = (Player) user;
 
-        if (isPlayerInTournament(player)) {
-            return "Error: Player is participating in an ongoing tournament and cannot be deleted.";
-        }
-
-        if (isPlayerInTeamInTournament(player)) {
-            return "Error: Player belongs to a team participating in an ongoing tournament and cannot be deleted.";
+        for (Tournament tournament : tournaments.values()) {
+            if (tournament.isInProgress()) {
+                if (tournament.isPlayerInTournament(player)) {
+                    return "Error: Player is participating in an ongoing tournament and cannot be deleted.";
+                }
+                if (tournament.isPlayerInTeamInTournament(player)) {
+                    return "Error: Player belongs to a team participating in an ongoing tournament and cannot be deleted.";
+                }
+            }
         }
 
         users.remove(playerEmail);
         return "Success: Player deleted successfully.";
-    }
-
-
-    private boolean isPlayerInTournament(Player player) {
-        for (Tournament tournament : tournaments) {
-            if (tournament.isInProgress()) {
-                for (Team team : tournament.getTeams()) {
-                    if (team.getPlayers().contains(player)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isPlayerInTeamInTournament(Player player) {
-        for (Tournament tournament : tournaments) {
-            if (tournament.isInProgress()) {
-                for (Team team : tournament.getTeams()) {
-                    if (team.getPlayers().contains(player)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     public String statisticsShow(String format) {

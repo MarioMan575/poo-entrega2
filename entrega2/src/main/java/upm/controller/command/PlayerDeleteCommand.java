@@ -11,8 +11,8 @@ public class PlayerDeleteCommand extends Command {
 
     @Override
     public String apply(String[] params) {
-        String result=super.testparams(params[0],"player-delete",
-                params.length-1,1);
+        String result = super.testparams(params[0], "player-delete",
+                params.length - 1, 1);
 
         if (result != null && result.isEmpty()) {
             if (controller.getLoggedUser() == null) {
@@ -20,9 +20,9 @@ public class PlayerDeleteCommand extends Command {
             }
 
             if (!controller.isAdmin()) {
-                return "Error: Only admins can delete players.";
+                return "Error: Only administrators can delete players.";
             }
-            
+
             result = controller.deletePlayer(params[1]);
         }
 

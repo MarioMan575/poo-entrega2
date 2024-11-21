@@ -3,29 +3,30 @@ package upm.controller.command;
 import upm.controller.TournamentController;
 import upm.controller.UserController;
 
-public class TournamentDeleteCommand extends Command {
+public class TournamentMatchmakingCommand extends Command {
+
     private TournamentController tournamentController;
     private UserController userController;
 
-    public TournamentDeleteCommand(TournamentController tournamentController, UserController userController) {
+    public TournamentMatchmakingCommand(TournamentController tournamentController, UserController userController) {
         this.tournamentController = tournamentController;
         this.userController = userController;
     }
 
     @Override
     public String apply(String[] params) {
-        String result = super.testparams(params[0], "tournament-delete", params.length - 1, 1);
+        String result = super.testparams(params[0], "tournament-matchmaking", params.length - 1, 2);
 
         if (result != null && result.isEmpty()) {
             if (userController.getLoggedUser() == null) {
-                return "Error: You must be logged in to delete a tournament.";
+                return "Error: You must be logged in to manage tournament matchmaking.";
             }
 
             if (!userController.isAdmin()) {
-                return "Error: Only administrators can delete tournaments.";
+                return "Error: Only administrators can perform tournament matchmaking.";
             }
 
-            result = tournamentController.deleteTournament(params[1]);
+            result = tournamentController.matchmakingTournament(params[1], params[2],params[3]);
         }
 
         return result;
@@ -33,6 +34,6 @@ public class TournamentDeleteCommand extends Command {
 
     @Override
     public String toStringCommand() {
-        return "tournament-delete [tournamentName]";
+        return "tournament-matchmaking [tournamentName;solo or team;-m or -a]";
     }
 }
